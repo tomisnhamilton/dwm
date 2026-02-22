@@ -1,4 +1,40 @@
-diff a/dwm.c b/dwm.c	(rejected hunks)
+From c2948f824cffb34ce96431d51eebcc62165e478c Mon Sep 17 00:00:00 2001
+From: Bakkeby <bakkeby@gmail.com>
+Date: Fri, 28 Jun 2024 18:13:46 +0200
+Subject: [PATCH 2/2] Monitor rules patch on top of pertag
+
+This patch allows the user to define layout, mfact, nmaster, showbar,
+and topbar settings on a per monitor basis. An example use case could
+be to have a layout with a horizontal split for a secondary vertical
+monitor.
+
+https://github.com/bakkeby/patches/wiki/monitorrules
+---
+ config.def.h |  6 +++++
+ dwm.c        | 67 +++++++++++++++++++++++++++++++++++++++++-----------
+ 2 files changed, 59 insertions(+), 14 deletions(-)
+
+diff --git a/config.def.h b/config.def.h
+index 1c0b587..36bfa8c 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -43,6 +43,12 @@ static const Layout layouts[] = {
+ 	{ "[M]",      monocle },
+ };
+ 
++static const MonitorRule monrules[] = {
++	/* monitor  tag  layout  mfact  nmaster  showbar  topbar */
++	{  1,       -1,  2,      -1,    -1,      -1,      -1     }, // use a different layout for the second monitor
++	{  -1,      -1,  0,      -1,    -1,      -1,      -1     }, // default
++};
++
+ /* key definitions */
+ #define MODKEY Mod1Mask
+ #define TAGKEYS(KEY,TAG) \
+diff --git a/dwm.c b/dwm.c
+index 466177c..8597936 100644
+--- a/dwm.c
++++ b/dwm.c
 @@ -143,6 +143,16 @@ typedef struct {
  	int monitor;
  } Rule;
@@ -98,3 +134,6 @@ diff a/dwm.c b/dwm.c	(rejected hunks)
  	}
  	return m;
  }
+-- 
+2.45.2
+
