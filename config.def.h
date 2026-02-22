@@ -28,6 +28,7 @@ static int smartgaps = 0;   /* 1 means no outer gap when there is only one windo
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const int taglayouts[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 static const Rule rules[] = {
 	/* xprop(1):
