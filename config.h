@@ -38,8 +38,8 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
-	{ "zen",      "Navigator",NULL,	      1 << 1,	    0,		  1 },
-	{ "vesktop",  "vesktop",  NULL,	      1 << 1,	    0,		  1 },
+	{ "zen",      "Navigator",NULL,	      1 << 0,	    0,		  0 },
+	{ "vesktop",  "vesktop",  NULL,	      1 << 0,	    0,		  0 },
 };
 
 /* layout(s) */
@@ -74,8 +74,8 @@ static const Layout layouts[] = {
 
 static const MonitorRule monrules[] = {
        /* monitor  tag  layout  mfact  nmaster  showbar  topbar */
-       {  1,       -1,  2,      -1,    -1,      -1,      -1     }, // use a different layout for the second monitor
-       {  -1,      -1,  0,      -1,    -1,      -1,      -1     }, // default
+       {  0,       -1,  6,      0.65,    -1,      -1,      -1     }, // use a different layout for the second monitor
+       {  1,      -1,  0,      -1,    -1,      -1,      -1     }, // default
 };
 
 /* key definitions */
@@ -93,6 +93,7 @@ static const MonitorRule monrules[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *essentialscmd[] = { "sh", "-c", "vesktop & sleep 2 && zen", NULL };
 
 /*
 * Xresources preferences to load at startup
@@ -116,7 +117,7 @@ ResourcePref resources[] = {
 };
 
 Autostarttag autostarttaglist[] = {
-       {.cmd = termcmd, .tags = 1 << 1 },
+       {.cmd = essentialscmd, .tags = 1 << 0 },
        {.cmd = NULL, .tags = 0 },
 };
 
@@ -164,6 +165,10 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_Right,  viewnext,       {0} },
+	{ MODKEY,                       XK_Left,   viewprev,       {0} },
+	{ MODKEY|ShiftMask,             XK_Right,  tagtonext,      {0} },
+	{ MODKEY|ShiftMask,             XK_Left,   tagtoprev,      {0} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
