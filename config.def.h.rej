@@ -1,14 +1,21 @@
 diff a/config.def.h b/config.def.h	(rejected hunks)
-@@ -43,6 +43,12 @@ static const Layout layouts[] = {
- 	{ "[M]",      monocle },
- };
+@@ -60,6 +60,19 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn()
+ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+ static const char *termcmd[]  = { "st", NULL };
  
-+static const MonitorRule monrules[] = {
-+	/* monitor  tag  layout  mfact  nmaster  showbar  topbar */
-+	{  1,       -1,  2,      -1,    -1,      -1,      -1     }, // use a different layout for the second monitor
-+	{  -1,      -1,  0,      -1,    -1,      -1,      -1     }, // default
++static const char *termcmd2[] = { "xterm", NULL };
++static const char *browsercmd[] = {"librewolf", NULL};
++static const char *keepassxccmd[] = {"keepassxc", NULL};
++static const char *emacscmd[] = {"emacs", NULL};
++
++Autostarttag autostarttaglist[] = {
++	{.cmd = browsercmd, .tags = 1 << 0 },
++	{.cmd = keepassxccmd, .tags = 1 << 4 },
++	{.cmd = emacscmd, .tags = 1 << 7 },
++	{.cmd = termcmd2, .tags = 1 << 8 },
++	{.cmd = NULL, .tags = 0 },
 +};
 +
- /* key definitions */
- #define MODKEY Mod1Mask
- #define TAGKEYS(KEY,TAG) \
+ static const Key keys[] = {
+ 	/* modifier                     key        function        argument */
+ 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },

@@ -115,6 +115,11 @@ ResourcePref resources[] = {
                { "mfact",              FLOAT,   &mfact },
 };
 
+Autostarttag autostarttaglist[] = {
+       {.cmd = termcmd, .tags = 1 << 1 },
+       {.cmd = NULL, .tags = 0 },
+};
+
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
