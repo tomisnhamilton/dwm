@@ -93,7 +93,8 @@ static const MonitorRule monrules[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *essentialscmd[] = { "sh", "-c", "vesktop & sleep 2 && zen", NULL };
+//static const char *browsercmd[] = { "sh", "-c", "pgrep -x zen >/dev/null || zen-browser", NULL };
+//static const char *vesktop[] = { "sh", "-c", "pgrep -x vesktop >/dev/null || vesktop", NULL };
 
 /*
 * Xresources preferences to load at startup
@@ -117,7 +118,6 @@ ResourcePref resources[] = {
 };
 
 Autostarttag autostarttaglist[] = {
-       {.cmd = essentialscmd, .tags = 1 << 0 },
        {.cmd = NULL, .tags = 0 },
 };
 
