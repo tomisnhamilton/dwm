@@ -1065,7 +1065,7 @@ getstatusbarpid(void)
 				return statuspid;
 		}
 	}
-	if (!(fp = popen("pgrep -o "STATUSBAR, "r"))) // fix for dwmblocks-async; get process object instead of PID
+	if (!(fp = popen("pidof -s "STATUSBAR, "r")))
 		return -1;
 	fgets(buf, sizeof(buf), fp);
 	pclose(fp);
