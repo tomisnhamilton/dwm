@@ -151,11 +151,6 @@ typedef struct {
 } Rule;
 
 typedef struct {
-       const char *cmd;
-       int id;
-} StatusCmd;
-
-typedef struct {
        const char **cmd;
        unsigned int tags;
 } Autostarttag;
@@ -298,9 +293,6 @@ static const char broken[] = "broken";
 static const char dwmdir[] = "dwm";
 static const char localshare[] = ".local/share";
 static char stext[256];
-static int statusw;
-static int statuscmdn;
-static char lastbutton[] = "-";
 static int screen;
 static int sw, sh;           /* X display screen geometry width, height */
 static int bh;               /* bar height */
@@ -528,28 +520,9 @@ buttonpress(XEvent *e)
 			click = ClkTagBar;
 			arg.ui = 1 << i;
 		} else if (ev->x < x + TEXTW(selmon->ltsymbol))
-		    click = ClkLtSymbol;
-	    else if (ev->x > selmon->ww - statusw) {
-            char *text, *s, ch;
-            *lastbutton = '0' + ev->button;
-
-            x = selmon->ww - statusw;
+			click = ClkLtSymbol;
+		else if (ev->x > selmon->ww - (int)TEXTW(stext))
 			click = ClkStatusText;
-
-            statuscmdn = 0;
-            for (text = s = stext; *s && x <= ev->x; s++) {
-                if ((unsigned char)(*s) < ' ') {
-                    ch = *s;
-                    *s = '\0';
-                    x += TEXTW(text) - lrpad;
-                    *s = ch;
-                    text = s + 1;
-                    if (x >= ev->x)
-                        break;
-                    statuscmdn = ch;
-                }
-            }
-        }
 		else
 			click = ClkWinTitle;
 	} else if ((c = wintoclient(ev->window))) {
@@ -767,7 +740,7 @@ createmon(void)
                         m->lt[0] = &layouts[layout];
                         m->lt[1] = &layouts[1 % LENGTH(layouts)];
                         strncpy(m->ltsymbol, layouts[layout].symbol, sizeof m->ltsymbol);
-
+ 
                         if (mr->mfact > -1)
                                 m->mfact = mr->mfact;
                         if (mr->nmaster > -1)
@@ -867,24 +840,9 @@ drawbar(Monitor *m)
 
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
-		char *text, *s, ch;
 		drw_setscheme(drw, scheme[SchemeNorm]);
-
-		x = 0;
-		for (text = s = stext; *s; s++) {
-			if ((unsigned char)(*s) < ' ') {
-				ch = *s;
-				*s = '\0';
-				tw = TEXTW(text) - lrpad;
-				drw_text(drw, m->ww - statusw + x, 0, tw, bh, 0, text, 0);
-				x += tw;
-				*s = ch;
-				text = s + 1;
-			}
-		}
-		tw = TEXTW(text) - lrpad + 2;
-		drw_text(drw, m->ww - statusw + x, 0, tw, bh, 0, text, 0);
-		tw = statusw;
+		tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
+		drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
 	}
 
 	for (c = m->clients; c; c = c->next) {
@@ -1971,17 +1929,6 @@ spawn(const Arg *arg)
 	if (fork() == 0) {
 		if (dpy)
 			close(ConnectionNumber(dpy));
-		if (arg->v == statuscmd) {
-		    for (int i = 0; i < LENGTH(statuscmds); i++) {
-                if (statuscmdn == statuscmds[i].id) {
-                    statuscmd[2] = statuscmds[i].cmd;
-                    setenv("BUTTON", lastbutton, 1);
-                    break;
-                }
-            }
-        if (!statuscmd[2])
-            exit(EXIT_SUCCESS);
-        }
 		setsid();
 
 		sigemptyset(&sa.sa_mask);
@@ -2383,23 +2330,8 @@ updatesizehints(Client *c)
 void
 updatestatus(void)
 {
-	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext))) {
+	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
 		strcpy(stext, "dwm-"VERSION);
-		statusw = TEXTW(stext) - lrpad + 2;
-	} else {
-		char *text, *s, ch;
-		statusw = 0;
-		for (text = s = stext; *s; s++) {
-			if ((unsigned char)(*s) < ' ') {
-				ch = *s;
-				*s = '\0';
-				statusw += TEXTW(text) - lrpad;
-				*s = ch;
-				text = s + 1;
-			}
-		}
-		statusw += TEXTW(text) - lrpad + 2;
-	}
 	drawbar(selmon);
 }
 
@@ -2492,7 +2424,7 @@ viewprev(const Arg *arg)
 {
 	view(&(const Arg){.ui = prevtag()});
 }
-
+ 
 Client *
 wintoclient(Window w)
 {
