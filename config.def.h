@@ -5,7 +5,7 @@ static unsigned int borderpx  = 1;        /* border pixel of windows */
 static unsigned int snap      = 8;       /* snap pixel */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static char font[]            = "JetBrains Mono Nerd:size=12";
+static char font[]            = "JetBrains Mono Nerd:size=10";
 static char dmenufont[]       = "JetBrains Mono Nerd:size=10";
 static const char *fonts[]          = { font };
 static char normbgcolor[]           = "#222222";
@@ -95,8 +95,8 @@ static const MonitorRule monrules[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
-//static const char *browsercmd[] = { "sh", "-c", "pgrep -x zen >/dev/null || zen-browser", NULL };
-//static const char *vesktop[] = { "sh", "-c", "pgrep -x vesktop >/dev/null || vesktop", NULL };
+static const char *screenlockcmd[] = { "slock", NULL };
+static const char *screenshotcmd[] = { "flameshot", "gui", NULL};
 
 /*
 * Xresources preferences to load at startup
@@ -182,6 +182,8 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
+	{ MODKEY,			XK_l,	   spawn,	   {.v = screenlockcmd } },
+	{ 0,				XK_Print,   spawn,	   {.v = screenshotcmd } },
 };
 
 /* button definitions */
