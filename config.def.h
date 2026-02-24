@@ -40,6 +40,7 @@ static const Rule rules[] = {
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
 	{ "zen",      "Navigator",NULL,	      1 << 0,	    0,		  0 },
 	{ "vesktop",  "vesktop",  NULL,	      1 << 0,	    0,		  0 },
+	{ "steam",    NULL,	  NULL,	      1 << 1,	    0,		  1 },
 };
 
 /* layout(s) */
@@ -95,6 +96,8 @@ static const MonitorRule monrules[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *upbrightness[]   = { "xbacklight", "-inc", "10", NULL };
+static const char *downbrightness[] = { "xbacklight", "-dec", "10", NULL };
 static const char *screenlockcmd[] = { "slock", NULL };
 static const char *screenshotcmd[] = { "flameshot", "gui", NULL};
 
@@ -183,6 +186,8 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
+        { 0,            XF86XK_MonBrightnessUp,    spawn,          {.v = upbrightness } },
+        { 0,            XF86XK_MonBrightnessDown,  spawn,          {.v = downbrightness } },
 	{ MODKEY,			XK_l,	   spawn,	   {.v = screenlockcmd } },
 	{ 0,				XK_Print,   spawn,	   {.v = screenshotcmd } },
 };
