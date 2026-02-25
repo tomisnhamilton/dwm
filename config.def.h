@@ -37,7 +37,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "qutebrowser", NULL,    NULL,       1 << 0,       0,            0 },
 	{ "zen",      "Navigator",NULL,	      1 << 0,	    0,		  0 },
 	{ "vesktop",  "vesktop",  NULL,	      1 << 0,	    0,		  0 },
 	{ "steam",    NULL,	  NULL,	      1 << 1,	    0,		  1 },
@@ -100,6 +100,9 @@ static const char *upbrightness[]   = { "xbacklight", "-inc", "10", NULL };
 static const char *downbrightness[] = { "xbacklight", "-dec", "10", NULL };
 static const char *screenlockcmd[] = { "slock", NULL };
 static const char *screenshotcmd[] = { "flameshot", "gui", NULL};
+static const char *browsercmd[] = { "sh", "-c", "pgrep -x zen-bin >/dev/null 2>&1 || setsid -f zen-browser >/dev/null 2>&1", NULL};
+//static const char *browsercmd[] = { "sh", "-c", "pgrep -x qutebrowser >/dev/null 2>&1 || setsid -f qutebrowser >/dev/null 2>&1", NULL};
+static const char *vesktop[] = { "sh", "-c", "sleep 0.6 && vesktop", NULL};
 
 /*
 * Xresources preferences to load at startup
@@ -123,7 +126,9 @@ ResourcePref resources[] = {
 };
 
 Autostarttag autostarttaglist[] = {
-       {.cmd = NULL, .tags = 0 },
+	{.cmd = browsercmd, .tags = 0 },
+	{.cmd = vesktop, .tags = 0 },
+        {.cmd = NULL, .tags = 0 },
 };
 
 static const Key keys[] = {
