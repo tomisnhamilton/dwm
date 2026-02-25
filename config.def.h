@@ -76,7 +76,7 @@ static const Layout layouts[] = {
 static const MonitorRule monrules[] = {
        /* monitor  tag  layout  mfact  nmaster  showbar  topbar */
        {  0,       -1,  6,      0.65,    -1,      -1,      -1     }, // use a different layout for the second monitor
-       {  1,      -1,  0,      -1,    -1,      -1,      -1     }, // default
+       {  1,      -1,  0,      0.5,    -1,      -1,      -1     }, // default
 };
 
 /* key definitions */
@@ -135,8 +135,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+	{ MODKEY|Mod1Mask,              XK_h,      setmfact,       {.f = -0.05} },
+	{ MODKEY|Mod1Mask,              XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
 	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.25} },
 	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
@@ -184,8 +184,9 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
+	//{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask, 		XK_q,      quit,           {1} }, 
+	{ MODKEY,                       XK_s,      togglesticky,   {0} },
         { 0,            XF86XK_MonBrightnessUp,    spawn,          {.v = upbrightness } },
         { 0,            XF86XK_MonBrightnessDown,  spawn,          {.v = downbrightness } },
 	{ MODKEY,			XK_l,	   spawn,	   {.v = screenlockcmd } },
