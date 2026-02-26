@@ -41,6 +41,7 @@ static const Rule rules[] = {
 	{ "zen",      "Navigator",NULL,	      1 << 0,	    0,		  0 },
 	{ "vesktop",  "vesktop",  NULL,	      1 << 0,	    0,		  0 },
 	{ "steam",    NULL,	  NULL,	      1 << 1,	    0,		  1 },
+	{ "mpv",      NULL,	  NULL,	      0,	    1,		  1 },
 };
 
 /* layout(s) */
