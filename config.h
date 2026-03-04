@@ -104,8 +104,8 @@ static const char *screenlockcmd[] = { "slock", NULL };
 static const char *screenshotcmd[] = { "flameshot", "gui", NULL};
 static const char *browsercmd[] = { "sh", "-c", "pgrep -x zen-bin >/dev/null 2>&1 || setsid -f zen-browser >/dev/null 2>&1", NULL};
 //static const char *browsercmd[] = { "sh", "-c", "pgrep -x qutebrowser >/dev/null 2>&1 || setsid -f qutebrowser >/dev/null 2>&1", NULL};
-//static const char *vesktop[] = { "sh", "-c", "vesktop", NULL};
-static const char *vesktop[] = { "sh", "-c", "discord", NULL};
+static const char *vesktop[] = { "sh", "-c", "vesktop", NULL};
+//static const char *vesktop[] = { "sh", "-c", "discord", NULL};
 /*
 * Xresources preferences to load at startup
 */
